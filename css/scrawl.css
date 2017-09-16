@@ -1,0 +1,162 @@
+/*common
+*/
+body {
+  margin: 0; }
+  body a {
+    text-decoration: none; }
+  body em {
+    font-style: normal; }
+  body .border_style {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #d3d6da; }
+  body em {
+    font-style: normal; }
+  body .scrawl-main {
+    margin: 8px;
+    overflow: hidden; }
+  body .hot {
+    float: left;
+    height: 335px; }
+    body .hot .drawBoard {
+      position: relative;
+      cursor: crosshair; }
+      body .hot .drawBoard .brushBorad {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 998;
+        width: 360px;
+        height: 300px; }
+      body .hot .drawBoard .picBoard {
+        border: none;
+        text-align: center;
+        line-height: 300px;
+        cursor: default;
+        width: 360px;
+        height: 300px; }
+    body .hot .operateBar {
+      margin-top: 10px;
+      font-size: 12px;
+      text-align: center; }
+      body .hot .operateBar span {
+        margin-left: 10px; }
+      body .hot .operateBar .previousStep .icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-image: url("images/undo.png");
+        cursor: default; }
+      body .hot .operateBar .previousStep .text {
+        color: #ccc;
+        cursor: default; }
+      body .hot .operateBar .nextStep .icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-image: url("images/redo.png");
+        cursor: default; }
+      body .hot .operateBar .nextStep .text {
+        color: #ccc;
+        cursor: default; }
+      body .hot .operateBar .clearBoard .icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-image: url("images/empty.png");
+        cursor: default; }
+      body .hot .operateBar .clearBoard .text {
+        color: #ccc;
+        cursor: default; }
+      body .hot .operateBar .scaleBoard .icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-image: url("images/scale.png");
+        cursor: default; }
+      body .hot .operateBar .scaleBoard .text {
+        color: #ccc;
+        cursor: default; }
+  body .drawToolbar {
+    float: right;
+    width: 110px;
+    height: 300px;
+    overflow: hidden; }
+    body .drawToolbar .brushIcon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background-image: url("images/brush.png"); }
+    body .drawToolbar .eraserIcon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background-image: url("images/eraser.png"); }
+    body .drawToolbar .colorBar {
+      margin-top: 10px;
+      font-size: 12px;
+      text-align: center; }
+      body .drawToolbar .colorBar a {
+        display: block;
+        width: 10px;
+        height: 10px;
+        border: 1px solid #1006F1;
+        border-radius: 3px;
+        box-shadow: 2px 2px 5px #d3d6da;
+        opacity: 0.3; }
+    body .drawToolbar .sectionBar {
+      margin-top: 15px;
+      font-size: 12px;
+      text-align: center; }
+      body .drawToolbar .sectionBar a {
+        display: inline-block;
+        width: 10px;
+        height: 12px;
+        color: #888;
+        text-indent: -999px;
+        opacity: 0.3; }
+      body .drawToolbar .sectionBar .size1 {
+        background: url("images/size.png") 1px center no-repeat; }
+      body .drawToolbar .sectionBar .size2 {
+        background: url("images/size.png") -10px center no-repeat; }
+      body .drawToolbar .sectionBar .size3 {
+        background: url("images/size.png") -22px center no-repeat; }
+      body .drawToolbar .sectionBar .size4 {
+        background: url("images/size.png") -35px center no-repeat; }
+      body .drawToolbar .sectionBar .addImgH {
+        position: relative; }
+        body .drawToolbar .sectionBar .addImgH .addImgH_form {
+          position: absolute;
+          left: 18px;
+          top: -1px;
+          width: 75px;
+          height: 21px;
+          opacity: 0;
+          cursor: pointer; }
+          body .drawToolbar .sectionBar .addImgH .addImgH_form input {
+            width: 100%; }
+      body .drawToolbar .sectionBar .removeImg .icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-image: url("images/delimg.png");
+        cursor: default; }
+      body .drawToolbar .sectionBar .removeImg .text {
+        color: #ccc;
+        cursor: default; }
+  body .maskLayerNull {
+    display: none; }
+  body .maskLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    background-color: #fff;
+    text-align: center;
+    font-weight: bold;
+    line-height: 300px;
+    z-index: 1000; }
+
+/*# sourceMappingURL=scrawl.css.map */

@@ -1,0 +1,200 @@
+/*common
+*/
+body {
+    margin: 0;
+    a{text-decoration: none;}
+    em{font-style: normal;}
+
+    .border_style{
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow:2px 2px 5px #d3d6da;
+    }
+    em {font-style: normal;}
+
+    .scrawl-main{
+        margin: 8px;
+        overflow: hidden;
+    }
+
+    // 绘图区域
+    .hot{
+        float:left;
+        height:335px;
+
+        .drawBoard{
+            position: relative;
+            cursor: crosshair;
+
+            .brushBorad{
+                position: absolute;
+                left:0;
+                top:0;
+                z-index: 998;
+                width: 360px;
+                height: 300px;
+            }
+
+            .picBoard{
+                border: none;
+                text-align: center;
+                line-height: 300px;
+                cursor: default;
+                width: 360px;height: 300px
+            }
+        }
+
+        .operateBar{
+            margin-top:10px;
+            font-size:12px;
+            text-align: center;
+
+            span{margin-left: 10px;}
+
+            .previousStep {
+                .icon{
+                    display: inline-block;
+                    width:16px;height:16px;
+                    background-image: url('images/undo.png');
+                    cursor:default;}
+
+                .text{
+                    color:#ccc;
+                    cursor:default;}
+
+            }
+
+            .nextStep {
+                .icon{
+                    display: inline-block;
+                    width:16px;
+                    height:16px;
+                    background-image: url('images/redo.png');
+                    cursor:default;}
+
+                .text{
+                    color:#ccc;
+                    cursor:default;}
+            }
+
+            .clearBoard {
+                .icon{
+                    display: inline-block;
+                    width:16px;height:16px;
+                    background-image: url('images/empty.png');
+                    cursor:default;}
+
+                .text{color:#ccc;cursor:default;}
+            }
+
+            .scaleBoard {
+                .icon {
+                    display: inline-block;
+                    width:16px;height:16px;
+                    background-image: url('images/scale.png');
+                    cursor:default;}
+
+                .text{
+                    color:#ccc;
+                    cursor:default;}
+            }
+
+
+        }
+    }
+
+    // 绘图工具
+    .drawToolbar {
+        float:right;
+        width:110px;
+        height:300px;
+        overflow: hidden;
+
+        .brushIcon {
+            display: inline-block;
+            width:16px;height:16px;
+            background-image: url('images/brush.png')}
+
+        .eraserIcon {
+            display: inline-block;
+            width:16px;height:16px;
+            background-image: url('images/eraser.png')}
+
+        .colorBar {
+            margin-top:10px;
+            font-size: 12px;
+            text-align: center;
+
+            a {
+                display:block;
+                width: 10px;
+                height: 10px;
+                border:1px solid #1006F1;
+                border-radius: 3px;
+                box-shadow:2px 2px 5px #d3d6da;
+                opacity: 0.3}
+        }
+
+        .sectionBar {
+            margin-top:15px;
+            font-size: 12px;
+            text-align: center;
+
+            a {
+                display:inline-block;
+                width:10px;
+                height:12px;
+                color: #888;
+                text-indent: -999px;
+                opacity: 0.3
+            }
+
+            .size1 {background: url('images/size.png') 1px center no-repeat ;}
+            .size2 {background: url('images/size.png') -10px center no-repeat;}
+            .size3 {background: url('images/size.png') -22px center no-repeat;}
+            .size4 {background: url('images/size.png') -35px center no-repeat;}
+
+            .addImgH {
+                position: relative;
+
+
+                .addImgH_form {
+                    position: absolute;
+                    left: 18px;top: -1px;
+                    width: 75px;
+                    height: 21px;
+                    opacity: 0;
+                    cursor: pointer;
+
+                    input {width: 100%;}
+                }
+            }
+
+            .removeImg {
+                .icon{
+                    display: inline-block;
+                    width:16px;height:16px;
+                    background-image: url('images/delimg.png');
+                    cursor:default;}
+
+                .text{color:#ccc;cursor:default;}
+            }
+
+        }
+    }
+
+    .maskLayerNull{display: none;}
+    .maskLayer{
+        position: absolute;
+        top:0;left:0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.7;
+        background-color: #fff;
+        text-align:center;
+        font-weight:bold;
+        line-height:300px;
+        z-index: 1000;}
+}
+
+
