@@ -50,12 +50,14 @@ body {
 
             span {margin-left: 10px;}
 
-            .previousStep {
+            .prevStep {
+                cursor:default;
+
                 .icon {
                     display: inline-block;
                     width:16px;height:16px;
                     background-image: url('images/undo.png');
-                    cursor:default;}
+                }
 
                 .iconH {
                     background-image: url('images/undoH.png');
@@ -63,17 +65,31 @@ body {
 
                 .text{
                     color:#ccc;
-                    cursor:default;}
+                }
+
+            }
+
+            .prevStepH {
+                cursor:pointer;
+
+                .icon {
+                    background-image: url('images/undoH.png');
+                }
+                .text{
+                    color:#00a2d4;
+                }
 
             }
 
             .nextStep {
+                cursor:default;
+
                 .icon {
                     display: inline-block;
                     width:16px;
                     height:16px;
                     background-image: url('images/redo.png');
-                    cursor:default;}
+                }
 
                 .iconH {
                     background-image: url('images/redoH.png');
@@ -81,7 +97,19 @@ body {
 
                 .text{
                     color:#ccc;
-                    cursor:default;}
+                }
+            }
+
+            .nextStepH {
+                cursor:pointer;
+
+                .icon {
+                    background-image: url('images/redoH.png');
+                }
+
+                .text {
+                    color:#00a2d4;
+                }
             }
 
             .clearBoard {

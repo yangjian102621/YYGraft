@@ -39,28 +39,40 @@ body {
       text-align: center; }
       body .hot .operateBar span {
         margin-left: 10px; }
-      body .hot .operateBar .previousStep .icon {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        background-image: url("images/undo.png");
+      body .hot .operateBar .prevStep {
         cursor: default; }
-      body .hot .operateBar .previousStep .iconH {
-        background-image: url("images/undoH.png"); }
-      body .hot .operateBar .previousStep .text {
-        color: #ccc;
+        body .hot .operateBar .prevStep .icon {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          background-image: url("images/undo.png"); }
+        body .hot .operateBar .prevStep .iconH {
+          background-image: url("images/undoH.png"); }
+        body .hot .operateBar .prevStep .text {
+          color: #ccc; }
+      body .hot .operateBar .prevStepH {
+        cursor: pointer; }
+        body .hot .operateBar .prevStepH .icon {
+          background-image: url("images/undoH.png"); }
+        body .hot .operateBar .prevStepH .text {
+          color: #00a2d4; }
+      body .hot .operateBar .nextStep {
         cursor: default; }
-      body .hot .operateBar .nextStep .icon {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        background-image: url("images/redo.png");
-        cursor: default; }
-      body .hot .operateBar .nextStep .iconH {
-        background-image: url("images/redoH.png"); }
-      body .hot .operateBar .nextStep .text {
-        color: #ccc;
-        cursor: default; }
+        body .hot .operateBar .nextStep .icon {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          background-image: url("images/redo.png"); }
+        body .hot .operateBar .nextStep .iconH {
+          background-image: url("images/redoH.png"); }
+        body .hot .operateBar .nextStep .text {
+          color: #ccc; }
+      body .hot .operateBar .nextStepH {
+        cursor: pointer; }
+        body .hot .operateBar .nextStepH .icon {
+          background-image: url("images/redoH.png"); }
+        body .hot .operateBar .nextStepH .text {
+          color: #00a2d4; }
       body .hot .operateBar .clearBoard .icon {
         display: inline-block;
         width: 16px;
