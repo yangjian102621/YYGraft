@@ -10,25 +10,25 @@
 <div class="scrawl-main">
     <div class="hot">
         <div class="drawBoard border_style">
-            <canvas id="J_brushBoard" class="brushBorad" >你的浏览器不支持 canvas 绘图</canvas>
+            <canvas id="J_brushBoard" class="brushBorad" width="360" height="300">你的浏览器不支持 canvas 绘图</canvas>
             <div class="picBoard" style=""></div>
         </div>
         <div id="J_operateBar" class="operateBar">
             <span id="J_previousStep" class="previousStep">
                 <em class="icon"></em>
-                <em class="text"><var id="lang_input_previousStep"></var></em>
+                <em class="text">上一步</em>
             </span>
             <span id="J_nextStep" class="nextStep">
                 <em class="icon"></em>
-                <em class="text"><var id="lang_input_nextsStep"></var></em>
+                <em class="text">下一步</em>
             </span>
             <span id="J_clearBoard" class="clearBoard">
                 <em class="icon"></em>
-                <em class="text"><var id="lang_input_clear"></var></em>
+                <em class="text">清空</em>
             </span>
             <span id="J_sacleBoard" class="scaleBoard">
                 <em class="icon"></em>
-                <em class="text"><var id="lang_input_ScalePic"></var></em>
+                <em class="text">缩放背景</em>
             </span>
         </div>
     </div>
@@ -51,7 +51,7 @@
         <div class="sectionBar">
             <div id="J_addImg" class="addImgH">
                 <em class="icon"></em>
-                <em class="text"><var id="lang_input_addPic"></var></em>
+                <em class="text">添加背景</em>
                 <form method="post" id="fileForm" enctype="multipart/form-data" class="addImgH_form" target="up">
                     <input type="file" name="upfile" id="J_imgTxt"
                            accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"/>
@@ -62,9 +62,10 @@
         <div class="sectionBar">
             <span id="J_removeImg" class="removeImg">
                 <em class="icon"></em>
-                <em class="text"><var id="lang_input_removePic"></var></em>
+                <em class="text">删除背景</em>
             </span>
         </div>
+
     </div>
 </div>
 <div id="J_maskLayer" class="maskLayerNull"></div>
@@ -96,7 +97,8 @@
         // 创建一个新的绘图路径
         context.beginPath();
         // 把画笔移动到鼠标位置
-        context.moveTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+        console.log(canvas.offsetLeft, canvas.offsetTop);
+        context.moveTo(0, 0);
     }
 
     // 停止画图
@@ -140,6 +142,56 @@
         // 将之前的画笔的 <img> 元素标签恢复默认样式
         if (previousThicknessElement != null) previousThicknessElement.className = "";
         previousThicknessElement = imgElement;
+    }// 开始画图
+    function startDrawing(e) {
+	    isDrawing = true;
+	    // 创建一个新的绘图路径
+	    context.beginPath();
+	    // 把画笔移动到鼠标位置
+	    context.moveTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+    }
+
+    // 停止画图
+    function stopDrawing() {
+	    isDrawing = false;
+    }
+
+    //画图中
+    function draw(e) {
+	    if (isDrawing == true) {
+		    // 找到鼠标最新位置
+		    var x = e.pageX - canvas.offsetLeft;
+		    var y = e.pageY - canvas.offsetTop;
+		    // 画一条直线到鼠标最新位置
+		    context.lineTo(x, y);
+		    context.stroke();
+	    }
+    }
+
+    // 保存之前选择的颜色的画笔 <img> 元素标签
+    var previousColorElement;
+
+    // 改变画笔颜色
+    function changeColor(color, imgElement) {
+	    context.strokeStyle = color;
+	    // 将当前画笔的 <img> 元素标签设置为选中样式
+	    imgElement.className = "Selected";
+	    // 将之前的画笔的 <img> 元素标签恢复默认样式
+	    if (previousColorElement != null) previousColorElement.className = "";
+	    previousColorElement = imgElement;
+    }
+
+    // 保存之前选择的粗细的画笔 <img> 元素标签
+    var previousThicknessElement;
+
+    // 改变画笔粗细
+    function changeThickness(thickness, imgElement) {
+	    context.lineWidth = thickness;
+	    // 将当前画笔的 <img> 元素标签设置为选中样式
+	    imgElement.className = "Selected";
+	    // 将之前的画笔的 <img> 元素标签恢复默认样式
+	    if (previousThicknessElement != null) previousThicknessElement.className = "";
+	    previousThicknessElement = imgElement;
     }
 
     // 清除画布

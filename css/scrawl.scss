@@ -31,8 +31,6 @@ body {
                 left:0;
                 top:0;
                 z-index: 998;
-                width: 360px;
-                height: 300px;
             }
 
             .picBoard{
@@ -40,7 +38,8 @@ body {
                 text-align: center;
                 line-height: 300px;
                 cursor: default;
-                width: 360px;height: 300px
+                width: 360px;
+                height: 300px
             }
         }
 
@@ -49,14 +48,18 @@ body {
             font-size:12px;
             text-align: center;
 
-            span{margin-left: 10px;}
+            span {margin-left: 10px;}
 
             .previousStep {
-                .icon{
+                .icon {
                     display: inline-block;
                     width:16px;height:16px;
                     background-image: url('images/undo.png');
                     cursor:default;}
+
+                .iconH {
+                    background-image: url('images/undoH.png');
+                }
 
                 .text{
                     color:#ccc;
@@ -65,12 +68,16 @@ body {
             }
 
             .nextStep {
-                .icon{
+                .icon {
                     display: inline-block;
                     width:16px;
                     height:16px;
                     background-image: url('images/redo.png');
                     cursor:default;}
+
+                .iconH {
+                    background-image: url('images/redoH.png');
+                }
 
                 .text{
                     color:#ccc;
@@ -78,11 +85,15 @@ body {
             }
 
             .clearBoard {
-                .icon{
+                .icon {
                     display: inline-block;
                     width:16px;height:16px;
                     background-image: url('images/empty.png');
                     cursor:default;}
+
+                .iconH {
+                    background-image: url('images/emptyH.png');
+                }
 
                 .text{color:#ccc;cursor:default;}
             }
@@ -93,6 +104,10 @@ body {
                     width:16px;height:16px;
                     background-image: url('images/scale.png');
                     cursor:default;}
+
+                .iconH {
+                    background-image: url('images/scaleH.png');
+                }
 
                 .text{
                     color:#ccc;
@@ -157,6 +172,12 @@ body {
             .addImgH {
                 position: relative;
 
+                .icon {
+                    display: inline-block;
+                    width:16px;height:16px;
+                    background-image: url('images/addimg.png');
+                    cursor:default;
+                }
 
                 .addImgH_form {
                     position: absolute;
@@ -165,17 +186,21 @@ body {
                     height: 21px;
                     opacity: 0;
                     cursor: pointer;
-
                     input {width: 100%;}
                 }
             }
 
             .removeImg {
-                .icon{
+                .icon {
                     display: inline-block;
                     width:16px;height:16px;
                     background-image: url('images/delimg.png');
-                    cursor:default;}
+                    cursor:default;
+                }
+
+                .iconH {
+                    background-image: url('images/delimgH.png');
+                }
 
                 .text{color:#ccc;cursor:default;}
             }

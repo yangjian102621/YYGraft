@@ -25,9 +25,7 @@ body {
         position: absolute;
         left: 0;
         top: 0;
-        z-index: 998;
-        width: 360px;
-        height: 300px; }
+        z-index: 998; }
       body .hot .drawBoard .picBoard {
         border: none;
         text-align: center;
@@ -47,6 +45,8 @@ body {
         height: 16px;
         background-image: url("images/undo.png");
         cursor: default; }
+      body .hot .operateBar .previousStep .iconH {
+        background-image: url("images/undoH.png"); }
       body .hot .operateBar .previousStep .text {
         color: #ccc;
         cursor: default; }
@@ -56,6 +56,8 @@ body {
         height: 16px;
         background-image: url("images/redo.png");
         cursor: default; }
+      body .hot .operateBar .nextStep .iconH {
+        background-image: url("images/redoH.png"); }
       body .hot .operateBar .nextStep .text {
         color: #ccc;
         cursor: default; }
@@ -65,6 +67,8 @@ body {
         height: 16px;
         background-image: url("images/empty.png");
         cursor: default; }
+      body .hot .operateBar .clearBoard .iconH {
+        background-image: url("images/emptyH.png"); }
       body .hot .operateBar .clearBoard .text {
         color: #ccc;
         cursor: default; }
@@ -74,6 +78,8 @@ body {
         height: 16px;
         background-image: url("images/scale.png");
         cursor: default; }
+      body .hot .operateBar .scaleBoard .iconH {
+        background-image: url("images/scaleH.png"); }
       body .hot .operateBar .scaleBoard .text {
         color: #ccc;
         cursor: default; }
@@ -125,6 +131,12 @@ body {
         background: url("images/size.png") -35px center no-repeat; }
       body .drawToolbar .sectionBar .addImgH {
         position: relative; }
+        body .drawToolbar .sectionBar .addImgH .icon {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          background-image: url("images/addimg.png");
+          cursor: default; }
         body .drawToolbar .sectionBar .addImgH .addImgH_form {
           position: absolute;
           left: 18px;
@@ -141,6 +153,8 @@ body {
         height: 16px;
         background-image: url("images/delimg.png");
         cursor: default; }
+      body .drawToolbar .sectionBar .removeImg .iconH {
+        background-image: url("images/delimgH.png"); }
       body .drawToolbar .sectionBar .removeImg .text {
         color: #ccc;
         cursor: default; }
