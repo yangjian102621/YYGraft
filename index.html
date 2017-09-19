@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>涂鸦工具测试</title>
+    <title>在线涂鸦工具</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="robots" content="noindex, nofollow"/>
     <link rel="stylesheet" type="text/css" href="css/scrawl.css">
@@ -116,11 +116,16 @@
     new Canvas({
         canvasId : "canvas-borad",
         width : 700,
-        height : 500,
+        height : 400,
         save : function(data) {
             $.post("upload.php", {imgBase64: data}, function(res) {
-                alert(res);
-            });
+                if (res.code == "000") {
+                	alert("图片保存成功！");
+                	location.href = res.url;
+                } else {
+                	alert(res.url);
+                }
+            }, "json");
         }
     });
 </script>

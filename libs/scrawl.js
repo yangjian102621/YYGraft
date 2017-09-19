@@ -231,6 +231,8 @@
 				image.src = $("#picBoard img:eq(0)").attr("src");
 				image.onload = function() {
 					context.save();
+					context.shadowBlur = 0;
+					context.shadowColor = '#FFF';
 					context.globalCompositeOperation = "destination-atop";
 					context.drawImage(this, 0, 0, configs.width, configs.height);
 					context.restore();
