@@ -40,6 +40,7 @@
 		var erasering = false; //是否正在擦除
 		var prevSteps = []; //返回上一步操作集合
 		var nextSteps = []; //恢复下一步操作集合
+		var o = {}; //导出api对象
 
 		$("#picBoard").css({
 			width : configs.width + "px",
@@ -247,13 +248,11 @@
 
 
 		//要导出的API
-		Canvas.prototype = {
-
-			nextStep : gotoPrevStep,
-			prevStep : gotoNextStep,
-			setColor : setColor
-
-		}
+		o.nextStep = gotoNextStep;
+		o.prevStep = gotoNextStep;
+		o.setColor = setColor;
+		o.save = saveImage;
+		return o;
 	}
 
 
