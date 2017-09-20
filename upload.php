@@ -6,10 +6,14 @@
  * Time: 下午3:07
  */
 $imgData = $_POST['imgBase64'];
+$imgDir = __DIR__."/files/";
+if (!file_exists($imgDir)) {
+    mkdir($imgDir);
+}
 
 if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $imgData, $match)){
     $type = $match[2];
-    $filename = "files/img-".time().".{$type}";
+    $filename = $imgDir.time().".{$type}";
     if (file_put_contents($filename, base64_decode(str_replace($match[1], '', $imgData)))){
         echo json_encode(array("code" => "000", "url" => $filename), JSON_UNESCAPED_UNICODE);
     } else {

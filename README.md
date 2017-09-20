@@ -16,4 +16,4 @@ YYGraft 是一个采用 html5 canvas 实现的一个在线涂鸦工具。
 
 在线预览
 ========
-### 在线演示: http://www.r9it.com/demo/yygraft/
+### 在线演示: http://d.r9it.com/yygraft/
