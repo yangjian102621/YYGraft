@@ -1,0 +1,15 @@
+{
+	"name" : "YYGraft",
+	"version" : "1.0.1",
+	"filename" : "YYGraft",
+	"repository" : "blackfox/YYGraft",
+	"devDependencies" : {
+		"grunt": "~0.4.1",
+		"grunt-contrib-concat": "~0.3.0",
+		"grunt-contrib-uglify": "~0.2.7",
+		"grunt-contrib-cssmin": "~2.2.1",
+		"grunt-contrib-copy": "~0.4.1",
+		"grunt-contrib-compress": "~0.5.3"
+	},
+	"license" : "MIT"
+}
