@@ -6,7 +6,7 @@
  * Time: 下午3:07
  */
 $imgData = $_POST['imgBase64'];
-$imgDir = __DIR__."/files/";
+$imgDir = __DIR__ . "/files/";
 if (!file_exists($imgDir)) {
     mkdir($imgDir);
 }
