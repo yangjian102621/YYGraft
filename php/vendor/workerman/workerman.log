@@ -12,3 +12,108 @@
 2017-09-26 06:57:13 pid:39 Workerman[start.php] has been stopped
 2017-09-26 06:59:44 pid:15 Workerman[start.php] start in DEBUG mode
 2017-09-26 07:04:08 pid:16 Workerman[start.php] start in DEBUG mode
+2017-09-29 21:43:34 pid:79 Workerman[start.php] start in DEBUG mode
+2017-09-29 22:04:08 pid:79 Workerman[start.php] Stopping ...
+2017-09-29 22:04:08 pid:79 Workerman[start.php] has been stopped
+2017-09-29 22:04:11 pid:89 Workerman[start.php] start in DEBUG mode
+2017-09-29 22:48:16 pid:89 Workerman[start.php] Stopping ...
+2017-09-29 22:48:16 pid:89 Workerman[start.php] has been stopped
+2017-09-29 23:05:12 pid:102 Workerman[start.php] start in DEBUG mode
+2017-09-29 23:06:56 pid:102 Workerman[start.php] Stopping ...
+2017-09-29 23:06:56 pid:102 Workerman[start.php] has been stopped
+2017-09-29 23:06:58 pid:104 Workerman[start.php] start in DEBUG mode
+2017-09-29 23:12:32 pid:104 Workerman[start.php] Stopping ...
+2017-09-29 23:12:32 pid:104 Workerman[start.php] has been stopped
+2017-09-29 23:12:33 pid:106 Workerman[start.php] start in DEBUG mode
+2017-09-29 23:12:40 pid:107 Exception: You can't send(NULL) to client, you need to convert it to a string.  in /php/javascript/yygraft/php/vendor/workerman/workerman/Protocols/Websocket.php:225
+Stack trace:
+#0 /php/javascript/yygraft/php/vendor/workerman/workerman/Connection/TcpConnection.php(260): Workerman\Protocols\Websocket::encode(NULL, Object(Workerman\Connection\TcpConnection))
+#1 /php/javascript/yygraft/php/start.php(27): Workerman\Connection\TcpConnection->send(NULL)
+#2 [internal function]: app\{closure}(Object(Workerman\Connection\TcpConnection), NULL)
+#3 /php/javascript/yygraft/php/vendor/workerman/workerman/Connection/TcpConnection.php(480): call_user_func(Object(Closure), Object(Workerman\Connection\TcpConnection), NULL)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #24)
+#5 /php/javascript/yygraft/php/vendor/workerman/workerman/Events/Select.php(283): call_user_func_array(Array, Array)
+#6 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(1571): Workerman\Events\Select->loop()
+#7 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(959): Workerman\Worker->run()
+#8 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(922): Workerman\Worker::forkOneWorker(Object(Workerman\Worker))
+#9 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(430): Workerman\Worker::forkWorkers()
+#10 /php/javascript/yygraft/php/start.php(31): Workerman\Worker::runAll()
+#11 {main}
+2017-09-29 23:12:40 pid:107 Worker[107] process terminated with exit()/die(). Please do not call exit()/die() in workerman.
+2017-09-29 23:12:40 pid:106 worker[none:107] exit with status 64000
+2017-09-29 23:12:44 pid:108 Exception: You can't send(NULL) to client, you need to convert it to a string.  in /php/javascript/yygraft/php/vendor/workerman/workerman/Protocols/Websocket.php:225
+Stack trace:
+#0 /php/javascript/yygraft/php/vendor/workerman/workerman/Connection/TcpConnection.php(260): Workerman\Protocols\Websocket::encode(NULL, Object(Workerman\Connection\TcpConnection))
+#1 /php/javascript/yygraft/php/start.php(27): Workerman\Connection\TcpConnection->send(NULL)
+#2 [internal function]: app\{closure}(Object(Workerman\Connection\TcpConnection), NULL)
+#3 /php/javascript/yygraft/php/vendor/workerman/workerman/Connection/TcpConnection.php(480): call_user_func(Object(Closure), Object(Workerman\Connection\TcpConnection), NULL)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #25)
+#5 /php/javascript/yygraft/php/vendor/workerman/workerman/Events/Select.php(283): call_user_func_array(Array, Array)
+#6 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(1571): Workerman\Events\Select->loop()
+#7 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(959): Workerman\Worker->run()
+#8 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(922): Workerman\Worker::forkOneWorker(Object(Workerman\Worker))
+#9 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(1075): Workerman\Worker::forkWorkers()
+#10 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(433): Workerman\Worker::monitorWorkers()
+#11 /php/javascript/yygraft/php/start.php(31): Workerman\Worker::runAll()
+#12 {main}
+2017-09-29 23:12:44 pid:108 Worker[108] process terminated with exit()/die(). Please do not call exit()/die() in workerman.
+2017-09-29 23:12:44 pid:106 worker[none:108] exit with status 64000
+2017-09-29 23:13:13 pid:106 Workerman[start.php] Stopping ...
+2017-09-29 23:13:13 pid:106 Workerman[start.php] has been stopped
+2017-09-29 23:13:14 pid:110 Workerman[start.php] start in DEBUG mode
+2017-09-29 23:13:22 pid:111 Exception: You can't send(NULL) to client, you need to convert it to a string.  in /php/javascript/yygraft/php/vendor/workerman/workerman/Protocols/Websocket.php:225
+Stack trace:
+#0 /php/javascript/yygraft/php/vendor/workerman/workerman/Connection/TcpConnection.php(260): Workerman\Protocols\Websocket::encode(NULL, Object(Workerman\Connection\TcpConnection))
+#1 /php/javascript/yygraft/php/start.php(27): Workerman\Connection\TcpConnection->send(NULL)
+#2 [internal function]: app\{closure}(Object(Workerman\Connection\TcpConnection), NULL)
+#3 /php/javascript/yygraft/php/vendor/workerman/workerman/Connection/TcpConnection.php(480): call_user_func(Object(Closure), Object(Workerman\Connection\TcpConnection), NULL)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #24)
+#5 /php/javascript/yygraft/php/vendor/workerman/workerman/Events/Select.php(283): call_user_func_array(Array, Array)
+#6 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(1571): Workerman\Events\Select->loop()
+#7 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(959): Workerman\Worker->run()
+#8 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(922): Workerman\Worker::forkOneWorker(Object(Workerman\Worker))
+#9 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(430): Workerman\Worker::forkWorkers()
+#10 /php/javascript/yygraft/php/start.php(31): Workerman\Worker::runAll()
+#11 {main}
+2017-09-29 23:13:22 pid:111 Worker[111] process terminated with exit()/die(). Please do not call exit()/die() in workerman.
+2017-09-29 23:13:22 pid:110 worker[none:111] exit with status 64000
+2017-09-29 23:13:22 pid:112 Exception: You can't send(NULL) to client, you need to convert it to a string.  in /php/javascript/yygraft/php/vendor/workerman/workerman/Protocols/Websocket.php:225
+Stack trace:
+#0 /php/javascript/yygraft/php/vendor/workerman/workerman/Connection/TcpConnection.php(260): Workerman\Protocols\Websocket::encode(NULL, Object(Workerman\Connection\TcpConnection))
+#1 /php/javascript/yygraft/php/start.php(27): Workerman\Connection\TcpConnection->send(NULL)
+#2 [internal function]: app\{closure}(Object(Workerman\Connection\TcpConnection), NULL)
+#3 /php/javascript/yygraft/php/vendor/workerman/workerman/Connection/TcpConnection.php(480): call_user_func(Object(Closure), Object(Workerman\Connection\TcpConnection), NULL)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #25)
+#5 /php/javascript/yygraft/php/vendor/workerman/workerman/Events/Select.php(283): call_user_func_array(Array, Array)
+#6 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(1571): Workerman\Events\Select->loop()
+#7 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(959): Workerman\Worker->run()
+#8 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(922): Workerman\Worker::forkOneWorker(Object(Workerman\Worker))
+#9 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(1075): Workerman\Worker::forkWorkers()
+#10 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(433): Workerman\Worker::monitorWorkers()
+#11 /php/javascript/yygraft/php/start.php(31): Workerman\Worker::runAll()
+#12 {main}
+2017-09-29 23:13:22 pid:112 Worker[112] process terminated with exit()/die(). Please do not call exit()/die() in workerman.
+2017-09-29 23:13:22 pid:110 worker[none:112] exit with status 64000
+2017-09-29 23:13:23 pid:113 Exception: You can't send(NULL) to client, you need to convert it to a string.  in /php/javascript/yygraft/php/vendor/workerman/workerman/Protocols/Websocket.php:225
+Stack trace:
+#0 /php/javascript/yygraft/php/vendor/workerman/workerman/Connection/TcpConnection.php(260): Workerman\Protocols\Websocket::encode(NULL, Object(Workerman\Connection\TcpConnection))
+#1 /php/javascript/yygraft/php/start.php(27): Workerman\Connection\TcpConnection->send(NULL)
+#2 [internal function]: app\{closure}(Object(Workerman\Connection\TcpConnection), NULL)
+#3 /php/javascript/yygraft/php/vendor/workerman/workerman/Connection/TcpConnection.php(480): call_user_func(Object(Closure), Object(Workerman\Connection\TcpConnection), NULL)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 /php/javascript/yygraft/php/vendor/workerman/workerman/Events/Select.php(283): call_user_func_array(Array, Array)
+#6 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(1571): Workerman\Events\Select->loop()
+#7 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(959): Workerman\Worker->run()
+#8 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(922): Workerman\Worker::forkOneWorker(Object(Workerman\Worker))
+#9 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(1075): Workerman\Worker::forkWorkers()
+#10 /php/javascript/yygraft/php/vendor/workerman/workerman/Worker.php(433): Workerman\Worker::monitorWorkers()
+#11 /php/javascript/yygraft/php/start.php(31): Workerman\Worker::runAll()
+#12 {main}
+2017-09-29 23:13:23 pid:113 Worker[113] process terminated with exit()/die(). Please do not call exit()/die() in workerman.
+2017-09-29 23:13:23 pid:110 worker[none:113] exit with status 64000
+2017-09-29 23:15:22 pid:110 Workerman[start.php] Stopping ...
+2017-09-29 23:15:22 pid:110 Workerman[start.php] has been stopped
+2017-09-29 23:15:26 pid:115 Workerman[start.php] start in DEBUG mode
+2017-09-30 00:08:40 pid:115 Workerman[start.php] Stopping ...
+2017-09-30 00:08:40 pid:115 Workerman[start.php] has been stopped
+2017-09-30 00:08:42 pid:117 Workerman[start.php] start in DEBUG mode

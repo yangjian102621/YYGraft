@@ -33,7 +33,7 @@ class Worker
      *
      * @var string
      */
-    const VERSION = '3.5.1';
+    const VERSION = '3.4.5';
 
     /**
      * Status starting.
@@ -215,7 +215,7 @@ class Worker
      *
      * @var Protocols\ProtocolInterface
      */
-    public $protocol = null;
+    public $protocol = '';
 
     /**
      * Root path for autoload.
@@ -427,8 +427,8 @@ class Worker
         self::initWorkers();
         self::installSignal();
         self::saveMasterPid();
-        self::displayUI();
         self::forkWorkers();
+        self::displayUI();
         self::resetStd();
         self::monitorWorkers();
     }
@@ -623,16 +623,8 @@ class Worker
         global $argv;
         // Check argv;
         $start_file = $argv[0];
-        $available_commands = array(
-            'start',
-            'stop',
-            'restart',
-            'reload',
-            'status',
-            'connections',
-        );
-        if (!isset($argv[1]) || !in_array($argv[1], $available_commands)) {
-            exit("Usage: php yourfile.php {" . implode('|', $available_commands) . "}\n");
+        if (!isset($argv[1])) {
+            exit("Usage: php yourfile.php {start|stop|restart|reload|status}\n");
         }
 
         // Get command.
@@ -651,11 +643,11 @@ class Worker
         self::log("Workerman[$start_file] $command $mode");
 
         // Get master process PID.
-        $master_pid      = is_file(self::$pidFile) ? file_get_contents(self::$pidFile) : 0;
-        $master_is_alive = $master_pid && @posix_kill($master_pid, 0) && posix_getpid() != $master_pid;
+        $master_pid      = @file_get_contents(self::$pidFile);
+        $master_is_alive = $master_pid && @posix_kill($master_pid, 0);
         // Master is still alive?
         if ($master_is_alive) {
-            if ($command === 'start') {
+            if ($command === 'start' && posix_getpid() != $master_pid) {
                 self::log("Workerman[$start_file] already running");
                 exit;
             }
@@ -672,21 +664,15 @@ class Worker
                 }
                 break;
             case 'status':
-            case 'connections':
                 if (is_file(self::$_statisticsFile)) {
                     @unlink(self::$_statisticsFile);
                 }
                 // Master process will send status signal to all child processes.
-                $signal = $command === 'status' ? SIGUSR2 : SIGIO;
-                posix_kill($master_pid, $signal);
+                posix_kill($master_pid, SIGUSR2);
                 // Waiting amoment.
                 usleep(500000);
                 // Display statisitcs data from a disk file.
-                if ($command !== 'status') {
-                    @readfile(self::$_statisticsFile);
-                    exit(0);
-                }
-                echo self::formatStatusData();
+                @readfile(self::$_statisticsFile);
                 exit(0);
             case 'restart':
             case 'stop':
@@ -725,53 +711,9 @@ class Worker
                 self::log("Workerman[$start_file] reload");
                 exit;
             default :
-                exit("Usage: php yourfile.php {" . implode('|', $available_commands) . "}\n");
+                exit("Usage: php yourfile.php {start|stop|restart|reload|status}\n");
         }
     }
-
-    /**
-     * Format status data.
-     *
-     * @return string
-     */
-    protected static function formatStatusData()
-    {
-        $info = @file(self::$_statisticsFile, FILE_IGNORE_NEW_LINES);
-        if (!$info) {
-            return '';
-        }
-        $status_str = '';
-        $worker_info = json_decode($info[0], true);
-        ksort($worker_info, SORT_NUMERIC);
-        unset($info[0]);
-        $data_waiting_sort = array();
-        $read_process_status = false;
-        foreach($info as $key => $value) {
-            if (!$read_process_status) {
-                $status_str .= $value . "\n";
-                if (preg_match('/^pid.*?memory.*?listening/', $value)) {
-                    $read_process_status = true;
-                }
-                continue;
-            }
-            if(preg_match('/^[0-9]+/', $value, $pid)) {
-                $data_waiting_sort[$pid[0]] = $value;
-            }
-        }
-        foreach($worker_info as $pid => $info) {
-            if (!isset($data_waiting_sort[$pid])) {
-                $status_str .= "$pid\t" . str_pad('N/A', 7) . " "
-                    . str_pad($info['listen'], self::$_maxSocketNameLength) . " "
-                    . str_pad($info['name'], self::$_maxWorkerNameLength) . " "
-                    . str_pad('N/A', 11) . " " . str_pad('N/A', 13) . " "
-                    . str_pad('N/A', 9) . " " . str_pad('N/A', 8) . " [busy] \n";
-                continue;
-            }
-            $status_str .= $data_waiting_sort[$pid]. " [idle] \n";
-        }
-        return $status_str;
-    }
-
 
     /**
      * Install signal handler.
@@ -786,8 +728,6 @@ class Worker
         pcntl_signal(SIGUSR1, array('\Workerman\Worker', 'signalHandler'), false);
         // status
         pcntl_signal(SIGUSR2, array('\Workerman\Worker', 'signalHandler'), false);
-        // connection status
-        pcntl_signal(SIGIO, array('\Workerman\Worker', 'signalHandler'), false);
         // ignore
         pcntl_signal(SIGPIPE, SIG_IGN, false);
     }
@@ -811,8 +751,6 @@ class Worker
         self::$globalEvent->add(SIGUSR1, EventInterface::EV_SIGNAL, array('\Workerman\Worker', 'signalHandler'));
         // reinstall  status signal handler
         self::$globalEvent->add(SIGUSR2, EventInterface::EV_SIGNAL, array('\Workerman\Worker', 'signalHandler'));
-        // reinstall connection status signal handler
-        self::$globalEvent->add(SIGIO, EventInterface::EV_SIGNAL, array('\Workerman\Worker', 'signalHandler'));
     }
 
     /**
@@ -835,10 +773,6 @@ class Worker
             // Show status.
             case SIGUSR2:
                 self::writeStatisticsToStatusFile();
-                break;
-            // Show connection status.
-            case SIGIO:
-                self::writeConnectionsStatisticsToStatusFile();
                 break;
         }
     }
@@ -1036,8 +970,6 @@ class Worker
      *
      * @param int $worker_id
      * @param int $pid
-     *
-     * @return integer
      */
     protected static function getId($worker_id, $pid)
     {
@@ -1245,7 +1177,6 @@ class Worker
             Timer::add(self::KILL_WORKER_TIMER_TIME, 'posix_kill', array($one_worker_pid, SIGKILL), false);
         } // For child processes.
         else {
-            reset(self::$_workers);
             $worker = current(self::$_workers);
             // Try to emit onWorkerReload callback.
             if ($worker->onWorkerReload) {
@@ -1307,19 +1238,9 @@ class Worker
     {
         // For master process.
         if (self::$_masterPid === posix_getpid()) {
-            $all_worker_info = array();
-            foreach(self::$_pidMap as $worker_id => $pid_array) {
-                /** @var Worker $worker */
-                $worker = self::$_workers[$worker_id];
-                foreach($pid_array as $pid) {
-                    $all_worker_info[$pid] = array('name' => $worker->name, 'listen' => $worker->getSocketName());
-                }
-            }
-
-            file_put_contents(self::$_statisticsFile, json_encode($all_worker_info)."\n", FILE_APPEND);
             $loadavg = function_exists('sys_getloadavg') ? array_map('round', sys_getloadavg(), array(2)) : array('-', '-', '-');
             file_put_contents(self::$_statisticsFile,
-                "----------------------------------------------GLOBAL STATUS----------------------------------------------------\n", FILE_APPEND);
+                "---------------------------------------GLOBAL STATUS--------------------------------------------\n");
             file_put_contents(self::$_statisticsFile,
                 'Workerman version:' . Worker::VERSION . "          PHP version:" . PHP_VERSION . "\n", FILE_APPEND);
             file_put_contents(self::$_statisticsFile, 'start time:' . date('Y-m-d H:i:s',
@@ -1332,7 +1253,7 @@ class Worker
                 count(self::$_pidMap) . ' workers       ' . count(self::getAllWorkerPids()) . " processes\n",
                 FILE_APPEND);
             file_put_contents(self::$_statisticsFile,
-                str_pad('worker_name', self::$_maxWorkerNameLength) . " exit_status      exit_count\n", FILE_APPEND);
+                str_pad('worker_name', self::$_maxWorkerNameLength) . " exit_status     exit_count\n", FILE_APPEND);
             foreach (self::$_pidMap as $worker_id => $worker_pid_array) {
                 $worker = self::$_workers[$worker_id];
                 if (isset(self::$_globalStatistics['worker_exit_info'][$worker_id])) {
@@ -1348,12 +1269,12 @@ class Worker
                 }
             }
             file_put_contents(self::$_statisticsFile,
-                "----------------------------------------------PROCESS STATUS---------------------------------------------------\n",
+                "---------------------------------------PROCESS STATUS-------------------------------------------\n",
                 FILE_APPEND);
             file_put_contents(self::$_statisticsFile,
                 "pid\tmemory  " . str_pad('listening', self::$_maxSocketNameLength) . " " . str_pad('worker_name',
                     self::$_maxWorkerNameLength) . " connections " . str_pad('total_request',
-                    13) . " " . str_pad('send_fail', 9) . " " . str_pad('timers', 8) . " status\n", FILE_APPEND);
+                    13) . " " . str_pad('send_fail', 9) . " " . str_pad('throw_exception', 15) . "\n", FILE_APPEND);
 
             chmod(self::$_statisticsFile, 0722);
 
@@ -1365,94 +1286,16 @@ class Worker
 
         // For child processes.
         /** @var Worker $worker */
-        $worker            = current(self::$_workers);
+        $worker           = current(self::$_workers);
         $worker_status_str = posix_getpid() . "\t" . str_pad(round(memory_get_usage(true) / (1024 * 1024), 2) . "M",
                 7) . " " . str_pad($worker->getSocketName(),
                 self::$_maxSocketNameLength) . " " . str_pad(($worker->name === $worker->getSocketName() ? 'none' : $worker->name),
                 self::$_maxWorkerNameLength) . " ";
         $worker_status_str .= str_pad(ConnectionInterface::$statistics['connection_count'],
                 11) . " " . str_pad(ConnectionInterface::$statistics['total_request'],
-                13) . " " . str_pad(ConnectionInterface::$statistics['send_fail'],
-                9) . " " . str_pad(self::$globalEvent->getTimerCount(), 8) . "\n";
+                14) . " " . str_pad(ConnectionInterface::$statistics['send_fail'],
+                9) . " " . str_pad(ConnectionInterface::$statistics['throw_exception'], 15) . "\n";
         file_put_contents(self::$_statisticsFile, $worker_status_str, FILE_APPEND);
-    }
-
-    /**
-     * Write statistics data to disk.
-     *
-     * @return void
-     */
-    protected static function writeConnectionsStatisticsToStatusFile()
-    {
-        // For master process.
-        if (self::$_masterPid === posix_getpid()) {
-            file_put_contents(self::$_statisticsFile, "--------------------------------------------------------------------- WORKERMAN CONNECTION STATUS --------------------------------------------------------------------------------\n", FILE_APPEND);
-            file_put_contents(self::$_statisticsFile, "PID      Worker          CID       Trans   Protocol        ipv4   ipv6   Recv-Q       Send-Q       Bytes-R      Bytes-W       Status         Local Address          Foreign Address\n", FILE_APPEND);
-            chmod(self::$_statisticsFile, 0722);
-            foreach (self::getAllWorkerPids() as $worker_pid) {
-                posix_kill($worker_pid, SIGIO);
-            }
-            return;
-        }
-
-        // For child processes.
-        $bytes_format = function($bytes)
-        {
-            if($bytes > 1024*1024*1024*1024) {
-                return round($bytes/(1024*1024*1024*1024), 1)."TB";
-            }
-            if($bytes > 1024*1024*1024) {
-                return round($bytes/(1024*1024*1024), 1)."GB";
-            }
-            if($bytes > 1024*1024) {
-                return round($bytes/(1024*1024), 1)."MB";
-            }
-            if($bytes > 1024) {
-                return round($bytes/(1024), 1)."KB";
-            }
-            return $bytes."B";
-        };
-
-        $pid = posix_getpid();
-        $str = '';
-        reset(self::$_workers);
-        $current_worker = current(self::$_workers);
-        $default_worker_name = $current_worker->name;
-
-        /** @var Worker $worker */
-        foreach(TcpConnection::$connections as $connection) {
-            /** @var Connection\TcpConnection $connection */
-            $transport      = $connection->transport;
-            $ipv4           = $connection->isIpV4() ? ' 1' : ' 0';
-            $ipv6           = $connection->isIpV6() ? ' 1' : ' 0';
-            $recv_q         = $bytes_format($connection->getRecvBufferQueueSize());
-            $send_q         = $bytes_format($connection->getSendBufferQueueSize());
-            $local_address  = trim($connection->getLocalAddress());
-            $remote_address = trim($connection->getRemoteAddress());
-            $state          = $connection->getStatus(false);
-            $bytes_read     = $bytes_format($connection->bytesRead);
-            $bytes_written  = $bytes_format($connection->bytesWritten);
-            $id             = $connection->id;
-            $protocol       = $connection->protocol ? $connection->protocol : $connection->transport;
-            $pos            = strrpos($protocol, '\\');
-            if ($pos) {
-                $protocol = substr($protocol, $pos+1);
-            }
-            if (strlen($protocol) > 15) {
-                $protocol = substr($protocol, 0, 13) . '..';
-            }
-            $worker_name = isset($connection->worker) ? $connection->worker->name : $default_worker_name;
-            if (strlen($worker_name) > 14) {
-                $worker_name = substr($worker_name, 0, 12) . '..';
-            }
-            $str .= str_pad($pid, 9) . str_pad($worker_name, 16) .  str_pad($id, 10) . str_pad($transport, 8)
-                . str_pad($protocol, 16) . str_pad($ipv4, 7) . str_pad($ipv6, 7) . str_pad($recv_q, 13)
-                . str_pad($send_q, 13) . str_pad($bytes_read, 13) . str_pad($bytes_written, 13) . ' '
-                . str_pad($state, 14) . ' ' . str_pad($local_address, 22) . ' ' . str_pad($remote_address, 22) ."\n";
-        }
-        if ($str) {
-            file_put_contents(self::$_statisticsFile, $str, FILE_APPEND);
-        }
     }
 
     /**
@@ -1463,7 +1306,7 @@ class Worker
     public static function checkErrors()
     {
         if (self::STATUS_SHUTDOWN != self::$_status) {
-            $error_msg = 'Worker['. posix_getpid() .'] process terminated';
+            $error_msg = 'Worker['. posix_getpid() .'] process terminated with ';
             $errors    = error_get_last();
             if ($errors && ($errors['type'] === E_ERROR ||
                     $errors['type'] === E_PARSE ||
@@ -1471,7 +1314,9 @@ class Worker
                     $errors['type'] === E_COMPILE_ERROR ||
                     $errors['type'] === E_RECOVERABLE_ERROR)
             ) {
-                $error_msg .= ' with ERROR: ' . self::getErrorType($errors['type']) . " \"{$errors['message']} in {$errors['file']} on line {$errors['line']}\"";
+                $error_msg .= self::getErrorType($errors['type']) . " \"{$errors['message']} in {$errors['file']} on line {$errors['line']}\"";
+            } else {
+                $error_msg .= 'exit()/die(). Please do not call exit()/die() in workerman.';
             }
             self::log($error_msg);
         }
@@ -1596,15 +1441,18 @@ class Worker
         list($scheme, $address) = explode(':', $this->_socketName, 2);
         // Check application layer protocol class.
         if (!isset(self::$_builtinTransports[$scheme])) {
-            $scheme         = ucfirst($scheme);
-            $this->protocol = '\\Protocols\\' . $scheme;
-            if (!class_exists($this->protocol)) {
-                $this->protocol = "\\Workerman\\Protocols\\$scheme";
+            if(class_exists($scheme)){
+                $this->protocol = $scheme;
+            } else {
+                $scheme         = ucfirst($scheme);
+                $this->protocol = '\\Protocols\\' . $scheme;
                 if (!class_exists($this->protocol)) {
-                    throw new Exception("class \\Protocols\\$scheme not exist");
+                    $this->protocol = "\\Workerman\\Protocols\\$scheme";
+                    if (!class_exists($this->protocol)) {
+                        throw new Exception("class \\Protocols\\$scheme not exist");
+                    }
                 }
             }
-
             if (!isset(self::$_builtinTransports[$this->transport])) {
                 throw new \Exception('Bad worker->transport ' . var_export($this->transport, true));
             }
@@ -1743,10 +1591,8 @@ class Worker
             }
         }
         // Remove listener for server socket.
-        if ($this->_mainSocket) {
-            self::$globalEvent->del($this->_mainSocket, EventInterface::EV_READ);
-            @fclose($this->_mainSocket);
-        }
+        self::$globalEvent->del($this->_mainSocket, EventInterface::EV_READ);
+        @fclose($this->_mainSocket);
     }
 
     /**
@@ -1806,7 +1652,7 @@ class Worker
         $connection           = new UdpConnection($socket, $remote_address);
         $connection->protocol = $this->protocol;
         if ($this->onMessage) {
-            if ($this->protocol !== null) {
+            if ($this->protocol) {
                 $parser      = $this->protocol;
                 $recv_buffer = $parser::decode($recv_buffer, $connection);
                 // Discard bad packets.
