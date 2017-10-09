@@ -4,57 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "920472fd21314487b4894117dca2067a",
+    "content-hash": "90776ef4e6c7191dc32d3bb0a7d22d2e",
     "packages": [
         {
-            "name": "workerman/gateway-worker",
-            "version": "v3.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/walkor/GatewayWorker.git",
-                "reference": "4444c59da4b5cd68679172904a40b66e1338389c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://files.phpcomposer.com/files/walkor/GatewayWorker/4444c59da4b5cd68679172904a40b66e1338389c.zip",
-                "reference": "4444c59da4b5cd68679172904a40b66e1338389c",
-                "shasum": ""
-            },
-            "require": {
-                "workerman/workerman": ">=3.1.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "GatewayWorker\\": "./src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "homepage": "http://www.workerman.net",
-            "keywords": [
-                "communication",
-                "distributed"
-            ],
-            "time": "2017-06-26T14:49:54+00:00"
-        },
-        {
             "name": "workerman/workerman",
-            "version": "v3.4.5",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/Workerman.git",
-                "reference": "212aa15bc0edc1226246de52a2fbece0db58414d"
+                "reference": "01aadefdc3e7bf65dd0956d1d876bc9d27cd9156"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/walkor/Workerman/212aa15bc0edc1226246de52a2fbece0db58414d.zip",
-                "reference": "212aa15bc0edc1226246de52a2fbece0db58414d",
+                "url": "https://files.phpcomposer.com/files/walkor/Workerman/01aadefdc3e7bf65dd0956d1d876bc9d27cd9156.zip",
+                "reference": "01aadefdc3e7bf65dd0956d1d876bc9d27cd9156",
                 "shasum": ""
             },
             "require": {
+                "ext-pcntl": "*",
+                "ext-posix": "*",
                 "php": ">=5.3"
             },
             "suggest": {
@@ -84,7 +52,7 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2017-07-14T02:24:43+00:00"
+            "time": "2017-08-25T08:26:28+00:00"
         }
     ],
     "packages-dev": [],

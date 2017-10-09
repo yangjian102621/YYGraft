@@ -115,6 +115,16 @@
 <script type="text/javascript" src="libs/YYGraft.js"></script>
 
 <script>
+    var socket = new WebSocket('ws://localhost:50001');
+    socket.onopen = function(event) {
+
+        //监听Socket的关闭
+        socket.onclose = function(event) {
+            console.log('Client notified socket has closed',event);
+        };
+
+    };
+
     new Canvas({
         canvasId : "canvas-borad",
         width : 700,
@@ -122,12 +132,16 @@
         save : function(data) {
             $.post("upload.php", {imgBase64: data}, function(res) {
                 if (res.code == "000") {
-                    alert("图片保存成功！");
-                    location.href = res.url;
+                	alert("图片保存成功！");
+                	location.href = res.url;
                 } else {
-                    alert(res.url);
+                	alert(res.url);
                 }
             }, "json");
+        },
+        onDraw : function (data) {
+        	//console.log(x, y);
+            socket.send(JSON.stringify(data));
         }
     });
 

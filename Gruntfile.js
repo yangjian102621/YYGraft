@@ -18,7 +18,7 @@ grunt.initConfig({
 
 			files: [
 				{
-					src : 'libs/scrawl.js',
+					src : 'libs/YYGraft.js',
 					dest : '<%= pkg.filename %>.min.js'
 				}
 			]

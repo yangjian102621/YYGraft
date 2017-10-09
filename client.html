@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>在线涂鸦工具客户端</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="robots" content="noindex, nofollow"/>
+    <link rel="stylesheet" type="text/css" href="css/scrawl.css">
+</head>
+<body>
+<div class="scrawl-main" id="scrawl-main">
+    <canvas id="canvas-borad2" width="700" height="500" style="border:1px solid #cccccc">你的浏览器不支持 canvas 绘图</canvas>
+</div>
+
+<script type="text/javascript" src="libs/jquery.min.js"></script>
+<script type="text/javascript" src="libs/YYGraft.js"></script>
+
+<script>
+	var socket = new WebSocket('ws://localhost:50001');
+    var context = document.getElementById("canvas-borad2").getContext("2d");
+	// 打开Socket
+	socket.onopen = function(event) {
+
+		// 监听消息
+		socket.onmessage = function(event) {
+			var data =  JSON.parse(event.data);
+			if (data.opt == "drawing") {
+				context.lineTo(data.x, data.y);
+				context.lineWidth = data.lineWidth;
+				context.shadowBlur = data.shadowBlur;
+				context.strokeStyle = data.strokeStyle;
+				context.shadowColor = data.shadowColor;
+				context.stroke();
+            } else if (data.opt == "start") {
+				context.beginPath();
+				context.moveTo(data.ajaxdata,  data.y);
+            }
+		};
+
+		//监听Socket的关闭
+		socket.onclose = function(event) {
+			console.log('Client notified socket has closed',event);
+		};
+
+		// 关闭Socket....
+		//socket.close()
+	};
+
+</script>
+
+</body>
+</html>
