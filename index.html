@@ -11,8 +11,10 @@
     <div class="hot">
         <div class="drawBoard border_style">
             <canvas id="canvas-borad" class="brushBorad">你的浏览器不支持 canvas 绘图</canvas>
+            <canvas id="canvas-borad2" width="360" height="300" style="position: absolute; left: 500px; border:1px solid red;">你的浏览器不支持 canvas 绘图</canvas>
             <div class="picBoard" id="picBoard" style=""></div>
         </div>
+
         <div class="operateBar">
             <button id="J_prevStep" class="prevStep" title="上一步">
                 <em class="icon"></em>
@@ -112,11 +114,41 @@
 
 <script type="text/javascript" src="libs/jquery.min.js"></script>
 <script type="text/javascript" src="libs/scrawl.js"></script>
+
 <script>
+	var socket = new WebSocket('ws://localhost:50001');
+    var context = document.getElementById("canvas-borad2").getContext("2d");
+	// 打开Socket
+	socket.onopen = function(event) {
+
+		// 监听消息
+		socket.onmessage = function(event) {
+			var data =  JSON.parse(event.data);
+			if (data.opt == "drawing") {
+				context.lineTo(data.x, data.y);
+				context.lineWidth = data.lineWidth;
+				context.shadowBlur = data.shadowBlur;
+				context.strokeStyle = data.strokeStyle;
+				context.shadowColor = data.shadowColor;
+				context.stroke();
+            } else if (data.opt == "start") {
+				context.beginPath();
+				context.moveTo(data.ajaxdata,  data.y);
+            }
+		};
+
+		//监听Socket的关闭
+		socket.onclose = function(event) {
+			console.log('Client notified socket has closed',event);
+		};
+
+		// 关闭Socket....
+		//socket.close()
+	};
     new Canvas({
         canvasId : "canvas-borad",
-        width : 700,
-        height : 400,
+        width : 360,
+        height : 300,
         save : function(data) {
             $.post("upload.php", {imgBase64: data}, function(res) {
                 if (res.code == "000") {
@@ -126,8 +158,13 @@
                 	alert(res.url);
                 }
             }, "json");
+        },
+        onDraw : function (data) {
+        	//console.log(x, y);
+            socket.send(JSON.stringify(data));
         }
     });
+
 </script>
 
 </body>

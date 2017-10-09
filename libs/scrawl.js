@@ -135,6 +135,13 @@
 			// 把画笔移动到鼠标位置
 			var offset = $(canvas).offset();
 			context.moveTo(e.pageX - offset.left, e.pageY - offset.top);
+			if (typeof options.onDraw == "function") {
+				options.onDraw({
+					opt : "start",
+					x : e.pageX - offset.left,
+					y : e.pageY - offset.top,
+				});
+			}
 		}
 
 		// 停止绘制
@@ -160,6 +167,17 @@
 				// 画一条直线到鼠标最新位置
 				context.lineTo(x, y);
 				context.stroke();
+				if (typeof options.onDraw == "function") {
+					options.onDraw({
+						opt : "drawing",
+						lineWidth : context.lineWidth,
+						shadowBlur : context.shadowBlur,
+						strokeStyle : context.strokeStyle,
+						shadowColor : context.shadowColor,
+						x : x,
+						y : y,
+					});
+				}
 			}
 		}
 
@@ -252,6 +270,9 @@
 		o.prevStep = gotoNextStep;
 		o.setColor = setColor;
 		o.save = saveImage;
+		o.onDraw = function (x, y) {
+
+		}
 		return o;
 	}
 

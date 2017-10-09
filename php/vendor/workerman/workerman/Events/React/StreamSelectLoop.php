@@ -56,12 +56,10 @@ class StreamSelectLoop extends \React\EventLoop\StreamSelectLoop
                 $this->_timerIdMap[++$this->_timerIdIndex] = $timer_obj;
                 return $this->_timerIdIndex;
             case EventInterface::EV_TIMER_ONCE:
-                $index = ++$this->_timerIdIndex;
-                $timer_obj = $this->addTimer($fd, function() use ($func, $args, $index) {
-                    $this->del($index,EventInterface::EV_TIMER_ONCE);
+                $timer_obj = $this->addTimer($fd, function() use ($func, $args) {
                     call_user_func_array($func, $args);
                 });
-                $this->_timerIdMap[$index] = $timer_obj;
+                $this->_timerIdMap[++$this->_timerIdIndex] = $timer_obj;
                 return $this->_timerIdIndex;
         }
         return false;
@@ -172,15 +170,5 @@ class StreamSelectLoop extends \React\EventLoop\StreamSelectLoop
     public function destroy()
     {
 
-    }
-
-    /**
-     * Get timer count.
-     *
-     * @return integer
-     */
-    public function getTimerCount()
-    {
-        return count($this->_timerIdMap);
     }
 }

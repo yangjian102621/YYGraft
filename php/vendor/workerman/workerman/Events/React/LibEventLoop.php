@@ -64,20 +64,17 @@ class LibEventLoop extends \React\EventLoop\LibEventLoop
             case EventInterface::EV_SIGNAL:
                 return $this->addSignal($fd, $func);
             case EventInterface::EV_TIMER:
-                $timer_id = ++$this->_timerIdIndex;
                 $timer_obj = $this->addPeriodicTimer($fd, function() use ($func, $args) {
                     call_user_func_array($func, $args);
                 });
-                $this->_timerIdMap[$timer_id] = $timer_obj;
-                return $timer_id;
+                $this->_timerIdMap[++$this->_timerIdIndex] = $timer_obj;
+                return $this->_timerIdIndex;
             case EventInterface::EV_TIMER_ONCE:
-                $timer_id = ++$this->_timerIdIndex;
-                $timer_obj = $this->addTimer($fd, function() use ($func, $args, $timer_id) {
-                    unset($this->_timerIdMap[$timer_id]);
+                $timer_obj = $this->addTimer($fd, function() use ($func, $args) {
                     call_user_func_array($func, $args);
                 });
-                $this->_timerIdMap[$timer_id] = $timer_obj;
-                return $timer_id;
+                $this->_timerIdMap[++$this->_timerIdIndex] = $timer_obj;
+                return $this->_timerIdIndex;
         }
         return false;
     }
@@ -173,15 +170,5 @@ class LibEventLoop extends \React\EventLoop\LibEventLoop
         foreach ($this->_signalEvents as $event) {
             event_del($event);
         }
-    }
-
-    /**
-     * Get timer count.
-     *
-     * @return integer
-     */
-    public function getTimerCount()
-    {
-        return count($this->_timerIdMap);
     }
 }
